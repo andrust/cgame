@@ -17,7 +17,7 @@ Deck& Deck::Sort( std::function<int(const Card&, const Card&)> pri_order
 }
 
 void fill_deck(Deck& d) {
-    for(const auto& c : AllColors) {
+    for(const auto& c : AllSuits) {
         for(const auto& f : AllFigures) {
             d.PutBack(Card(c, f));
         }

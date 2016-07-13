@@ -6,21 +6,21 @@ namespace ulti {
 
 enum class eOrderDir {
       ASC
-    , COLORLESS_ASC
-    , COLORLESS_DESC
+    , SUITLESS_ASC
+    , SUITLESS_DESC
     , DESC
 };
 
-struct compare_figure {
+struct compare_rank {
     eOrderDir _dir;
     int operator()(const Card& lhs, const Card& rhs);
-    compare_figure(const eOrderDir& dir);
+    compare_rank(const eOrderDir& dir);
 };
 
-struct compare_color {
+struct compare_suit {
     eOrderDir _dir;
     int operator()(const Card& lhs, const Card& rhs);
-    compare_color(const eOrderDir& dir);
+    compare_suit(const eOrderDir& dir);
 };
 
 } //ns ulti

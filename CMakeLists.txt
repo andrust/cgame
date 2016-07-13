@@ -10,6 +10,6 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ulti_core)
 
-add_subdirectory(ulti_core)
-add_subdirectory(ulti_client)
-add_subdirectory(ulti_server)
+add_subdirectory(core)
+add_subdirectory(client)
+add_subdirectory(server)

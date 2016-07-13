@@ -3,14 +3,14 @@
 
 namespace ulti {
 
-enum class eColors : uint8_t {
+enum class eSuits : uint8_t {
       GREEN = 0
     , BELL
     , CLUB
     , RED
 };
 
-enum class eFigures : uint8_t {
+enum class eRanks : uint8_t {
       VII = 7
     , VIII
     , IX
@@ -21,8 +21,8 @@ enum class eFigures : uint8_t {
     , ACE
 };
 
-static constexpr eFigures AllFigures[] = {eFigures::VII, eFigures::VIII, eFigures::IX, eFigures::X, eFigures::LOW, eFigures::HIGH, eFigures::KING, eFigures::ACE};
-static constexpr eColors Allolors[] = {eColors::GREEN, eColors::BELL, eColors::CLUB, eColors::RED};
+static constexpr eRanks AllRanks[] = {eRanks::VII, eRanks::VIII, eRanks::IX, eRanks::X, eRanks::LOW, eRanks::HIGH, eRanks::KING, eRanks::ACE};
+static constexpr eSuits Allolors[] = {eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED};
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
 typename std::underlying_type<T>::type to_integral(const T& e) {
