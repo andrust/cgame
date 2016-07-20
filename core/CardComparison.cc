@@ -6,7 +6,7 @@ compare_rank::compare_rank(const eOrderDir& dir)
 : _dir(dir)
 {}
 
-int compare_rank::compare_rank operator()(const Card& lhs, const Card& rhs) {
+int compare_rank::operator()(const Card& lhs, const Card& rhs) {
     if(lhs.GetRank() == rhs.GetRank()) {
         return 0;
     }

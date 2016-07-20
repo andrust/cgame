@@ -7,14 +7,15 @@ Card::Card(const eSuits& c, const eRanks& f)
 , _rank(f)
 {}
 
-Card::CardCard(const Card& other)
+Card::Card(const Card& other)
 : _suit(other.GetSuit())
-, _rank(other.GetRank())_
+, _rank(other.GetRank())
 {}
 
-Card& Card::Card operator= (const Card& c) {
+Card& Card::operator= (const Card& c) {
     _suit = c.GetSuit();
     _rank = c.GetRank();
+    return *this;
 }
 
 } //ns ulti

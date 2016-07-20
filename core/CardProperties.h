@@ -1,5 +1,7 @@
 #pragma once
+
 #include <type_traits>
+#include <cstdint>
 
 namespace ulti {
 
@@ -22,7 +24,7 @@ enum class eRanks : uint8_t {
 };
 
 static constexpr eRanks AllRanks[] = {eRanks::VII, eRanks::VIII, eRanks::IX, eRanks::X, eRanks::LOW, eRanks::HIGH, eRanks::KING, eRanks::ACE};
-static constexpr eSuits Allolors[] = {eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED};
+static constexpr eSuits AllSuits[] = {eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED};
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
 typename std::underlying_type<T>::type to_integral(const T& e) {
