@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <ostream>
 
 #include "CardProperties.h"
 
@@ -23,9 +24,15 @@ public:
 
     Card& operator= (const Card& c);
 
+
 private:
     eSuits _suit = eSuits::GREEN;
     eRanks _rank = eRanks::VII;
 };
+
+inline bool operator== (const Card& lhs, const Card& rhs) { return lhs.GetSuit() == rhs.GetSuit() && lhs.GetRank() == rhs.GetRank(); }
+inline bool operator!= (const Card& lhs, const Card& rhs) { return lhs.GetSuit() != rhs.GetSuit() || lhs.GetRank() != rhs.GetRank(); }
+
+std::ostream& operator<<(std::ostream& os, const Card& c);
 
 } //ns ulti

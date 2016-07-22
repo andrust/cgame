@@ -8,4 +8,4 @@ add_library(ulti_core SHARED
     Deck.h
 )
 
-#add_subdirectory(test)
+add_subdirectory(test)

@@ -18,4 +18,9 @@ Card& Card::operator= (const Card& c) {
     return *this;
 }
 
+std::ostream& operator<<(std::ostream& os, const Card& c) {
+    os << to_string(c.GetSuit()) << "-" << to_string(c.GetRank());
+    return os;
+}
+
 } //ns ulti

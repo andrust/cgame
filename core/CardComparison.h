@@ -14,13 +14,13 @@ enum class eOrderDir {
 struct compare_rank {
     eOrderDir _dir;
     int operator()(const Card& lhs, const Card& rhs);
-    compare_rank(const eOrderDir& dir);
+    explicit compare_rank(const eOrderDir& dir);
 };
 
 struct compare_suit {
     eOrderDir _dir;
     int operator()(const Card& lhs, const Card& rhs);
-    compare_suit(const eOrderDir& dir);
+    explicit compare_suit(const eOrderDir& dir);
 };
 
 } //ns ulti

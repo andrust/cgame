@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include <cstdint>
+#include <string>
 
 namespace ulti {
 
@@ -23,41 +24,65 @@ enum class eRanks : uint8_t {
     , ACE
 };
 
-static constexpr eRanks AllRanks[] = {eRanks::VII, eRanks::VIII, eRanks::IX, eRanks::X, eRanks::LOW, eRanks::HIGH, eRanks::KING, eRanks::ACE};
-static constexpr eSuits AllSuits[] = {eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED};
+inline std::string to_string(const eSuits s) {
+    switch(s) {
+        case eSuits::GREEN: return "Zold";
+        case eSuits::CLUB: return "Tok";
+        case eSuits::BELL: return "Makk";
+        case eSuits::RED: return "Piros";
+    }
+    return "";
+}
+
+inline std::string to_string(const eRanks r) {
+    switch(r) {
+        case eRanks::VII: return "VII";
+        case eRanks::VIII: return "VIII";
+        case eRanks::IX: return "IX";
+        case eRanks::X: return "X";
+        case eRanks::LOW: return "Also";
+        case eRanks::HIGH: return "Felso";
+        case eRanks::KING: return "Kiraly";
+        case eRanks::ACE: return "Asz";
+    }
+    return "";
+}
+
+static constexpr eRanks AllRanks[] = { eRanks::VII, eRanks::VIII, eRanks::IX, eRanks::X, eRanks::LOW, eRanks::HIGH, eRanks::KING, eRanks::ACE };
+static constexpr eSuits AllSuits[] = { eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED };
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-typename std::underlying_type<T>::type to_integral(const T& e) {
+constexpr typename std::underlying_type<T>::type to_integral(const T e) {
   return static_cast<typename std::underlying_type<T>::type>(e);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator > (const T& lhs, const T& rhs) {
+constexpr bool operator > (const T lhs, const T rhs) {
     return to_integral(lhs) > to_integral(rhs);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator < (const T& lhs, const T& rhs) {
+constexpr bool operator < (const T lhs, const T rhs) {
     return to_integral(lhs) < to_integral(rhs);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator == (const T& lhs, const T& rhs) {
+constexpr bool operator == (const T lhs, const T rhs) {
     return to_integral(lhs) == to_integral(rhs);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator >= (const T& lhs, const T& rhs) {
+constexpr bool operator >= (const T lhs, const T rhs) {
     return to_integral(lhs) >= to_integral(rhs);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator <= (const T& lhs, const T& rhs) {
+constexpr bool operator <= (const T lhs, const T rhs) {
     return to_integral(lhs) <= to_integral(rhs);
 }
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
-bool operator != (const T& lhs, const T& rhs) {
+constexpr bool operator != (const T lhs, const T rhs) {
     return to_integral(lhs) != to_integral(rhs);
 }
 
