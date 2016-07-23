@@ -33,6 +33,7 @@ private:
 inline bool operator== (const Card& lhs, const Card& rhs) { return lhs.GetSuit() == rhs.GetSuit() && lhs.GetRank() == rhs.GetRank(); }
 inline bool operator!= (const Card& lhs, const Card& rhs) { return lhs.GetSuit() != rhs.GetSuit() || lhs.GetRank() != rhs.GetRank(); }
 
+std::string to_string(const Card& c);
 std::ostream& operator<<(std::ostream& os, const Card& c);
 
 } //ns ulti

@@ -18,8 +18,12 @@ Card& Card::operator= (const Card& c) {
     return *this;
 }
 
+std::string to_string(const Card& c) {
+    return to_string(c.GetSuit()) + "-" + to_string(c.GetRank());
+}
+
 std::ostream& operator<<(std::ostream& os, const Card& c) {
-    os << to_string(c.GetSuit()) << "-" << to_string(c.GetRank());
+    os << to_string(c);
     return os;
 }
 

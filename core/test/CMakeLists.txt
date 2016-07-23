@@ -4,6 +4,7 @@ include_directories(..)
 add_executable(${TESTBIN}
     TestMain.cc
     TestCard.cc
+    TestDeck.cc
 )
 
 target_link_libraries(${TESTBIN}
