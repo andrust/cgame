@@ -11,11 +11,11 @@ class Card {
 public:
 
 public:
-    inline eSuits GetSuit() const { return _suit; }
-    inline eRanks GetRank() const {return _rank; }
+    eSuits GetSuit() const { return _suit; }
+    eRanks GetRank() const {return _rank; }
 
-    inline Card& SetSuit(const eSuits& c) { _suit = c; return *this; }
-    inline Card& SetRank(const eRanks& f) { _rank = f; return *this; }
+    Card& SetSuit(const eSuits& c) { _suit = c; return *this; }
+    Card& SetRank(const eRanks& f) { _rank = f; return *this; }
 
 public:
     Card() = default;

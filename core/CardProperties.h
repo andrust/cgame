@@ -27,23 +27,23 @@ enum class eRanks : uint8_t {
 inline std::string to_string(const eSuits s) {
     switch(s) {
         case eSuits::GREEN: return "Zold";
-        case eSuits::CLUB: return "Tok";
-        case eSuits::BELL: return "Makk";
-        case eSuits::RED: return "Piros";
+        case eSuits::CLUB:  return "Tok";
+        case eSuits::BELL:  return "Makk";
+        case eSuits::RED:   return "Piros";
     }
     return "";
 }
 
 inline std::string to_string(const eRanks r) {
     switch(r) {
-        case eRanks::VII: return "VII";
+        case eRanks::VII:  return "VII";
         case eRanks::VIII: return "VIII";
-        case eRanks::IX: return "IX";
-        case eRanks::X: return "X";
-        case eRanks::LOW: return "Also";
+        case eRanks::IX:   return "IX";
+        case eRanks::X:    return "X";
+        case eRanks::LOW:  return "Also";
         case eRanks::HIGH: return "Felso";
         case eRanks::KING: return "Kiraly";
-        case eRanks::ACE: return "Asz";
+        case eRanks::ACE:  return "Asz";
     }
     return "";
 }

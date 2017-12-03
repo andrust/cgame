@@ -1,7 +1,7 @@
 #include "Deck.h"
 #include "CardComparison.h"
 
-#include <boost/test/unit_test.hpp>
+#include <gmock/gmock.h>
 #include <iostream>
 
 using namespace ulti;
@@ -12,67 +12,63 @@ const std::string ORDER_SUIT_ASC_RANK_DESC           = "Zold-Asz, Zold-X, Zold-K
 const std::string ORDER_SUIT_DESC_RANK_SUITLESS_DESC = "Piros-Asz, Piros-Kiraly, Piros-Felso, Piros-Also, Piros-X, Piros-IX, Piros-VIII, Piros-VII, Tok-Asz, Tok-Kiraly, Tok-Felso, Tok-Also, Tok-X, Tok-IX, Tok-VIII, Tok-VII, Makk-Asz, Makk-Kiraly, Makk-Felso, Makk-Also, Makk-X, Makk-IX, Makk-VIII, Makk-VII, Zold-Asz, Zold-Kiraly, Zold-Felso, Zold-Also, Zold-X, Zold-IX, Zold-VIII, Zold-VII";
 }
 
-BOOST_AUTO_TEST_SUITE(testsuite_Deck)
-
-BOOST_AUTO_TEST_CASE(Deck__construct_destruct_identity) {
+TEST(construct_destruct_identity, DeckTest) {
     Deck d;
-    BOOST_CHECK(d.Empty());
-    BOOST_CHECK_EQUAL(0, d.Size());
+    EXPECT_TRUE(d.Empty());
+    EXPECT_EQ(0, d.Size());
 }
 
-BOOST_AUTO_TEST_CASE(Deck__put_draw_peek) {
+TEST(put_draw_peek, DeckTest) {
     Deck d;
     d.PutBack(Card(eSuits::CLUB, eRanks::X));
     
-    BOOST_CHECK(!d.Empty());
-    BOOST_CHECK_EQUAL(1, d.Size());
-    
-    BOOST_CHECK_EQUAL(d.PeekFront(), Card(eSuits::CLUB, eRanks::X));
-    BOOST_CHECK_EQUAL(d.PeekFront(), d.PeekBack());
-    
+    EXPECT_TRUE(!d.Empty());
+    EXPECT_EQ(1, d.Size());
+
+    EXPECT_EQ(d.PeekFront(), Card(eSuits::CLUB, eRanks::X));
+    EXPECT_EQ(d.PeekFront(), d.PeekBack());
+
     d.PutFront(Card(eSuits::BELL, eRanks::IX)).PutBack(Card(eSuits::RED, eRanks::ACE));
-    BOOST_CHECK_EQUAL(3, d.Size());
-    BOOST_CHECK(d.PeekFront() != d.PeekBack());
-    BOOST_CHECK_EQUAL(d.PeekIndex(1), Card(eSuits::CLUB, eRanks::X));
-    BOOST_CHECK_EQUAL(d.PeekFront(), Card(eSuits::BELL, eRanks::IX));
-    
-    BOOST_CHECK_EQUAL(d.DrawIndex(1), Card(eSuits::CLUB, eRanks::X));
-    BOOST_CHECK_EQUAL(2, d.Size());   
-    BOOST_CHECK_EQUAL(d.DrawBack(), Card(eSuits::RED, eRanks::ACE));
-    BOOST_CHECK_EQUAL(d.DrawFront(), Card(eSuits::BELL, eRanks::IX));
+    EXPECT_EQ(3, d.Size());
+    EXPECT_TRUE(d.PeekFront() != d.PeekBack());
+    EXPECT_EQ(d.PeekIndex(1), Card(eSuits::CLUB, eRanks::X));
+    EXPECT_EQ(d.PeekFront(), Card(eSuits::BELL, eRanks::IX));
+
+    EXPECT_EQ(d.DrawIndex(1), Card(eSuits::CLUB, eRanks::X));
+    EXPECT_EQ(2, d.Size());
+    EXPECT_EQ(d.DrawBack(), Card(eSuits::RED, eRanks::ACE));
+    EXPECT_EQ(d.DrawFront(), Card(eSuits::BELL, eRanks::IX));
 }
 
-BOOST_AUTO_TEST_CASE(Deck__fill_deck) {
+TEST(fill_deck, DeckTest) {
     Deck d;
     fill_deck(d);
     std::cout << "A freash deck: " << d << std::endl;
-    BOOST_REQUIRE(32 == d.Size());
-    BOOST_CHECK_EQUAL(d.PeekFront(), Card(eSuits::GREEN, eRanks::VII));
-    BOOST_CHECK_EQUAL(d.PeekBack(), Card(eSuits::RED, eRanks::ACE));
-    BOOST_CHECK_EQUAL(d.PeekIndex(16), Card(eSuits::CLUB, eRanks::VII));
-    BOOST_CHECK_EQUAL(FRESH_DECK, to_string(d));
+    ASSERT_TRUE(32 == d.Size());
+    EXPECT_EQ(d.PeekFront(), Card(eSuits::GREEN, eRanks::VII));
+    EXPECT_EQ(d.PeekBack(), Card(eSuits::RED, eRanks::ACE));
+    EXPECT_EQ(d.PeekIndex(16), Card(eSuits::CLUB, eRanks::VII));
+    EXPECT_EQ(FRESH_DECK, to_string(d));
 }
 
-BOOST_AUTO_TEST_CASE(Deck__sort) {
+TEST(sort, DeckTest) {
     Deck d;
-    fill_deck(d);  
+    fill_deck(d);
     d.Sort(compare_suit(eOrderDir::ASC), compare_rank(eOrderDir::DESC));
-    BOOST_CHECK_EQUAL(ORDER_SUIT_ASC_RANK_DESC, to_string(d));
+    EXPECT_EQ(ORDER_SUIT_ASC_RANK_DESC, to_string(d));
     d.Sort(compare_suit(eOrderDir::DESC), compare_rank(eOrderDir::SUITLESS_DESC));
-    BOOST_CHECK_EQUAL(ORDER_SUIT_DESC_RANK_SUITLESS_DESC, to_string(d));   
+    EXPECT_EQ(ORDER_SUIT_DESC_RANK_SUITLESS_DESC, to_string(d));
 }
 
-BOOST_AUTO_TEST_CASE(Deck__shuffle) {
+TEST(shuffle, DeckTest) {
     Deck d;
     fill_deck(d);
     d.Shuffle();
     
     /* might fail if shuffled deck turns out to be on of the sorted order */
-    BOOST_CHECK(FRESH_DECK != to_string(d));
-    BOOST_CHECK(ORDER_SUIT_ASC_RANK_DESC != to_string(d));
-    BOOST_CHECK(ORDER_SUIT_DESC_RANK_SUITLESS_DESC != to_string(d));
+    EXPECT_TRUE(FRESH_DECK != to_string(d));
+    EXPECT_TRUE(ORDER_SUIT_ASC_RANK_DESC != to_string(d));
+    EXPECT_TRUE(ORDER_SUIT_DESC_RANK_SUITLESS_DESC != to_string(d));
     std::cout << "A freash shuffled deck: " << d << std::endl;    
 }
     
-
-BOOST_AUTO_TEST_SUITE_END();
