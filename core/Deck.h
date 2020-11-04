@@ -3,14 +3,17 @@
 #include <deque>
 #include <cstddef>
 #include <functional>
+#include <vector>
 
 #include "Card.h"
+#include "CardProperties.h"
 
 namespace ulti {
 
 class Deck {
 public:
     typedef std::deque<Card> card_container_t;
+    typedef std::vector<Card> find_result_t;
 
 public:
     Card DrawFront() { if(!_cards.empty()) { auto c = _cards.front(); _cards.pop_front(); return c;} return Card(); }
@@ -24,14 +27,43 @@ public:
     Deck& PutFront(const Card& c) {_cards.push_front(c); return *this;}
     Deck& PutBack(const Card& c) {_cards.push_back(c); return *this;}
     Deck& PutIndex(const Card& c, size_t index) { _cards.insert(_cards.begin()+index, c); return *this; }
-    
+
+    Deck& MoveBackAll(Deck& d) { for (const auto& c : d._cards) _cards.push_back(c); d._cards.clear(); return *this; }
+
     bool Empty() const { return _cards.empty(); }
     size_t Size() const { return _cards.size(); }
+
+    void Remove(const Card& c) {
+        for(auto it = _cards.begin(); it != _cards.end(); ++it) {
+            if(c == *it) {
+                _cards.erase(it);
+                return;
+            }
+        }
+    }
+
+    void RemoveAll(const Deck& d) {
+        for(const auto& c : d.iterables()) {
+            Remove(c);
+        }
+    }
+
+    bool Has(const Card& c) const;
 
     Deck& Shuffle();
     Deck& Sort( std::function<int(const Card&, const Card&)> pri_order
               , std::function<int(const Card&, const Card&)> sec_order
               );
+
+    find_result_t FindSuits(eSuits s) const {
+        find_result_t ret;
+        for(const auto& c : _cards) {
+            if(c.GetSuit() == s) {
+                ret.push_back(c);
+            }
+        }
+        return ret;
+    }
 
     card_container_t& iterables() { return _cards; }
     const card_container_t& iterables() const { return _cards; }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include <type_traits>
 #include <cstdint>
 #include <string>
@@ -11,10 +12,11 @@ enum class eSuits : uint8_t {
     , BELL
     , CLUB
     , RED
+    , NONE
 };
 
 enum class eRanks : uint8_t {
-      VII = 7
+      VII = 0
     , VIII
     , IX
     , LOW
@@ -22,7 +24,9 @@ enum class eRanks : uint8_t {
     , KING
     , X
     , ACE
+    , NA
 };
+
 
 inline std::string to_string(const eSuits s) {
     switch(s) {
@@ -30,6 +34,7 @@ inline std::string to_string(const eSuits s) {
         case eSuits::CLUB:  return "Tok";
         case eSuits::BELL:  return "Makk";
         case eSuits::RED:   return "Piros";
+        default: return "szintelen";
     }
     return "";
 }
@@ -44,12 +49,18 @@ inline std::string to_string(const eRanks r) {
         case eRanks::HIGH: return "Felso";
         case eRanks::KING: return "Kiraly";
         case eRanks::ACE:  return "Asz";
+        default: return "";
     }
     return "";
 }
 
 static constexpr eRanks AllRanks[] = { eRanks::VII, eRanks::VIII, eRanks::IX, eRanks::X, eRanks::LOW, eRanks::HIGH, eRanks::KING, eRanks::ACE };
 static constexpr eSuits AllSuits[] = { eSuits::GREEN, eSuits::BELL, eSuits::CLUB, eSuits::RED };
+
+inline std::ostream& operator<<(std::ostream& os, const eSuits& v) {
+    os << ::ulti::to_string(v);
+    return os;
+}
 
 template<typename T, typename std::enable_if<std::is_enum<T>::value, void>::type* = nullptr>
 constexpr typename std::underlying_type<T>::type to_integral(const T e) {

@@ -25,6 +25,13 @@ Deck& Deck::Sort( std::function<int(const Card&, const Card&)> pri_order
     return *this;
 }
 
+bool Deck::Has(const Card& card) const {
+    for(const auto& c : _cards) {
+        if(c == card) return true;
+    }
+    return false;
+}
+
 void fill_deck(Deck& d) {
     for(const auto& c : AllSuits) {
         for(const auto& f : AllRanks) {

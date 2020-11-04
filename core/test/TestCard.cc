@@ -52,7 +52,7 @@ TEST(compare_ranks__rank_comparison_functor, CardTest) {
     Card T_F  (eSuits::CLUB,  eRanks::HIGH);
     Card T_VII(eSuits::CLUB,  eRanks::VII );
     Card T_ACE(eSuits::CLUB,  eRanks::ACE );
-    
+
     EXPECT_EQ( 1, compare_rank(eOrderDir::SUITLESS_ASC)  (T_VII, T_ACE));
     EXPECT_EQ(-1, compare_rank(eOrderDir::ASC)           (Z_X,   P_A));
     EXPECT_EQ( 1, compare_rank(eOrderDir::SUITLESS_ASC)  (Z_X,   M_K));
