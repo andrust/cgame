@@ -26,7 +26,7 @@ inline bool isBiggerSuit(const Card& l, const Card& r) {
 }
 
 inline bool isBiggerSuitless(const Card& l, const Card& r) {
-    return RankOrder::Suit[to_integral(l.GetRank())] > RankOrder::Suit[to_integral(r.GetRank())];
+    return RankOrder::Suitless[to_integral(l.GetRank())] > RankOrder::Suitless[to_integral(r.GetRank())];
 }
 
 struct compare_rank {

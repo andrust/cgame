@@ -4,8 +4,8 @@
 
 namespace ulti {
 
-const int RankOrder::Suit[] = {1, 2, 3, 4, 5, 6, 7, 8, 9 };
-const int RankOrder::Suitless[] = {1, 2, 3, 4, 6, 7, 8, 5, 9 };
+const int RankOrder::Suit[] =     {1, 2, 3, 4, 5, 6, 7, 8, 9 };
+const int RankOrder::Suitless[] = {1, 2, 3, 5, 6, 7, 4, 8, 9 };
 
 const int* RankOrder::GetOrder(eOrderDir dir) {
     if( dir == eOrderDir::SUITLESS_ASC || dir == eOrderDir::SUITLESS_DESC) {

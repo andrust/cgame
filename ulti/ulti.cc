@@ -6,6 +6,7 @@
 #include "../core/Game.h"
 #include "../core/CardComparison.cc"
 #include "../core/Bids.h"
+#include "../core/ValidMoveFinder.h"
 
 using namespace ulti;
 
@@ -53,7 +54,8 @@ public:
     }
 
     virtual Card PlayCard() const override {
-        return _game.nextToPlay().hand().PeekFront();
+        ValidMoveFinder mf{_game.trumpSuit(), _game.pile(), _game.nextToPlay().hand()};
+        return mf()[0];
     }
 
     virtual void UpdateState(const GameState& state) override {
@@ -101,7 +103,8 @@ public:
         _os << std::endl << "playcard called" << std::endl;
         printState();
 
-        return _game.nextToPlay().hand().PeekFront();
+        ValidMoveFinder mf{_game.trumpSuit(), _game.pile(), _game.nextToPlay().hand()};
+        return readChoice("Válassz kijátszható lapot", mf());
     }
 
     virtual void UpdateState(const GameState& state) override {
@@ -137,6 +140,15 @@ private:
         return options[res];
     }
 
+    void printHand(Deck d) const {
+        if(_game.trumpSuit() == eSuits::NONE) {
+            d.Sort(compare_suit(eOrderDir::SUITLESS_DESC), compare_rank(eOrderDir::SUITLESS_ASC));
+        }
+        else {
+            d.Sort(compare_suit(eOrderDir::DESC), compare_rank(eOrderDir::ASC));
+        }
+        _os << "Kézben " << d.Size() << " lap: " << d << std::endl;
+    }
 
     void printState() const {
         _os << "---------------------------------------------------------------------------------" << std::endl;
@@ -151,10 +163,10 @@ private:
             }
             if(_game.bidder().HasWidow()) {
                 _os << "Talont felvette: " << _game.bidder().index() << ". játékos" << std::endl;
-                _os << "Kézben " << _game.bidder().hand().Size() << " lap: " << _game.bidder().hand() << std::endl;
+                printHand(_game.bidder().hand());
             }
             else {
-                _os << "Kézben " << _game.nextToBid().hand().Size() << " lap: " << _game.nextToBid().hand() << std::endl;
+                printHand(_game.nextToBid().hand());
             }
         }
         else if(_game.phase() != eGameState::BIDDING) {
@@ -164,7 +176,7 @@ private:
             auto def = _game.defenders();
             _os << "Védők: " << def.first.index() << ". " << def.second.index() << ". játékosok" << std::endl;
             _os << "Kijátszva: " << _game.pile() << std::endl;
-            _os << "Kézben " << _game.nextToPlay().hand().Size() << " lap: " << _game.nextToPlay().hand() << std::endl;
+            printHand(_game.nextToPlay().hand());
             _os << "Fogott lapok: " << _game.nextToPlay().captures() << std::endl;
         }
     }
@@ -238,9 +250,14 @@ void printGameState(const Game& g) {
 
 int main(int, char**) {
 
-    UserActionPtr p3(new RandomUserAction);
+    UserActionPtr p1(new RandomUserAction);
+    //UserActionPtr p1(new ConsoleUserAction(std::cout, std::cin));
+
     UserActionPtr p2(new RandomUserAction);
-    UserActionPtr p1(new ConsoleUserAction(std::cout, std::cin));
+    //UserActionPtr p2(new ConsoleUserAction(std::cout, std::cin));
+
+    //UserActionPtr p3(new RandomUserAction);
+    UserActionPtr p3(new ConsoleUserAction(std::cout, std::cin));
 
     p1->setName("p1");
     p2->setName("p2");

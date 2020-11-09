@@ -1,10 +1,12 @@
 #pragma once
 
+#include "CardComparison.h"
 #include "CardProperties.h"
 #include "Deck.h"
 #include "Player.h"
 #include "Bids.h"
 
+#include <cassert>
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -127,7 +129,55 @@ public:
     }
 
     size_t evaluateNextLead() {
-        return 0;
+        assert(_state.pile.Size() == 3);
+
+        auto call = _state.pile.PeekFront();
+        auto second = _state.pile.PeekIndex(1);
+        auto third = _state.pile.PeekBack();
+
+        if(_state.trumpSuit == eSuits::NONE) {
+            if(second.GetSuit() == call.GetSuit() && isBiggerSuitless(second, call)) {
+                if(call.GetSuit() == third.GetSuit() && isBiggerSuitless(third, second)) {
+                    return prevIndex(_state.lead);
+                }
+                return nextIndex(_state.lead);
+            }
+            if(call.GetSuit() == third.GetSuit() && isBiggerSuitless(third, call)) {
+                return prevIndex(_state.lead);
+            }
+            return _state.lead;
+        }
+
+        if(call.GetSuit() == _state.trumpSuit) {
+            if(second.GetSuit() == call.GetSuit() && isBiggerSuit(second, call)) {
+                if(call.GetSuit() == third.GetSuit() && isBiggerSuit(third, second)) {
+                    return prevIndex(_state.lead);
+                }
+                return nextIndex(_state.lead);
+            }
+            if(call.GetSuit() == third.GetSuit() && isBiggerSuit(third, call)) {
+                return prevIndex(_state.lead);
+            }
+            return _state.lead;
+        }
+
+
+        if(second.GetSuit() == call.GetSuit() && isBiggerSuit(second, call)) {
+            if((call.GetSuit() == third.GetSuit() && isBiggerSuit(third, second)) || third.GetSuit() == _state.trumpSuit) {
+                return prevIndex(_state.lead);
+            }
+            return nextIndex(_state.lead);
+        }
+        else if(second.GetSuit() == _state.trumpSuit) {
+            if(third.GetSuit() == _state.trumpSuit && isBiggerSuit(third, second)) {
+                return prevIndex(_state.lead);
+            }
+            return nextIndex(_state.lead);
+        }
+        if((third.GetSuit() == call.GetSuit() && isBiggerSuit(third, second)) || third.GetSuit() == _state.trumpSuit) {
+            return prevIndex(_state.lead);
+        }
+        return _state.lead;
     }
 
     bool shouldReport() {
@@ -163,6 +213,7 @@ public:
         else {
             auto capturing_player = evaluateNextLead();
             _state.nextToPlay = capturing_player;
+            _state.lead = capturing_player;
             getPlayerByIndex(capturing_player).captures().MoveBackAll(_state.pile);
 
             if(_state.state == eGameState::ROUND1) {

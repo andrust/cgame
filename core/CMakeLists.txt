@@ -6,6 +6,7 @@ add_library(ulti_core SHARED
     CardProperties.h
     Deck.cc
     Deck.h
+    ValidMoveFinder.cc
 )
 
 #add_subdirectory(test)
