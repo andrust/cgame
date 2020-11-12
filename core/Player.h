@@ -12,8 +12,8 @@ public:
 };
 
 enum class eReports {
-    R20,
-    R40
+    R20 = 20,
+    R40 = 40
 };
 
 std::string to_string(eReports r) {

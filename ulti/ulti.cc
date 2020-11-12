@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "../core/Game.h"
+#include "../core/GameStateHandler.h"
 #include "../core/CardComparison.cc"
 #include "../core/Bids.h"
 #include "../core/ValidMoveFinder.h"
@@ -63,7 +63,7 @@ public:
     }
 
 private:
-    Game _game;
+    GameStateHandler _game;
 };
 
 class ConsoleUserAction : public IUserAction {
@@ -184,13 +184,13 @@ private:
 private:
     std::ostream& _os;
     std::istream& _is;
-    Game _game;
+    GameStateHandler _game;
 };
 
 class Match {
 public:
     Match(UserActionPtr p1, UserActionPtr p2, UserActionPtr p3)
-        : _game(new Game)
+        : _game(new GameStateHandler)
         , _p1(std::move(p1))
         , _p2(std::move(p2))
         , _p3(std::move(p3))
@@ -234,7 +234,7 @@ public:
     }
 
 private:
-    std::unique_ptr<Game> _game;
+    std::unique_ptr<GameStateHandler> _game;
     UserActionPtr _p1;
     UserActionPtr _p2;
     UserActionPtr _p3;
@@ -243,7 +243,7 @@ private:
 
 } // ns ulti
 
-void printGameState(const Game& g) {
+void printGameState(const GameStateHandler& g) {
     std::cout << "Bemondás: " << to_string(g.trumpSuit()) << ' ' << g.bid() << std::endl;
     std::cout << "Kör: " << g.round() << std::endl;
 }
